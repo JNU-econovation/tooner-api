@@ -28,4 +28,10 @@ public class ReviewArticleApiController {
     public ReviewArticleResponseDto findById(@PathVariable Long id) {
         return reviewArticleService.findById(id);
     }
+
+    @DeleteMapping("/reviews/{id}")
+    public Long delete(@PathVariable Long id) {
+        reviewArticleService.delete(id);
+        return id;
+    }
 }

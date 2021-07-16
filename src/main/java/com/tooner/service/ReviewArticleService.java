@@ -36,4 +36,12 @@ public class ReviewArticleService {
 
         return new ReviewArticleResponseDto(entity);
     }
+
+    @Transactional
+    public void delete(Long id) {
+        ReviewArticle reviewArticle = reviewArticleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        reviewArticleRepository.delete(reviewArticle);
+    }
 }

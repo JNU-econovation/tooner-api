@@ -134,4 +134,28 @@ public class ReviewArticleApiControllerTest {
         assertThat(all.get(0).getContent()).isEqualTo(savedContent);
         assertThat(all.get(0).getRating()).isEqualTo(savedRating);
     }
+
+    @Test
+    public void ReviewArticle_삭제된다() throws Exception {
+        //given
+        ReviewArticle savedReviewArticle = reviewArticleRepository.save(ReviewArticle.builder()
+                .title("title")
+                .content("content")
+                .rating(3)
+                .build());
+
+        Long savedId = savedReviewArticle.getId();
+        String savedTitle = savedReviewArticle.getTitle();
+        String savedContent = savedReviewArticle.getContent();
+        Integer savedRating = savedReviewArticle.getRating();
+
+        String url = "http://localhost:" + port + "/api/reviews/" + savedId;
+
+        HttpEntity<ReviewArticle> requestEntity = new HttpEntity<>(savedReviewArticle);
+
+        ResponseEntity<Long> responseEntity = restTemplate.exchange(url, HttpMethod.DELETE, requestEntity, Long.class, savedId);
+
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+
+    }
 }
