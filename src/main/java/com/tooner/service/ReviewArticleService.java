@@ -2,6 +2,7 @@ package com.tooner.service;
 
 import com.tooner.domain.reviewarticle.ReviewArticle;
 import com.tooner.domain.reviewarticle.ReviewArticleRepository;
+import com.tooner.web.dto.ReviewArticleResponseDto;
 import com.tooner.web.dto.ReviewArticleSaveRequestDto;
 import com.tooner.web.dto.ReviewArticleUpdateRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -26,5 +27,13 @@ public class ReviewArticleService {
         reviewArticle.update(requestDto.getTitle(), requestDto.getContent(), requestDto.getRating());
 
         return id;
+    }
+
+    @Transactional
+    public ReviewArticleResponseDto findById(Long id) {
+        ReviewArticle entity = reviewArticleRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당 게시글이 없습니다. id=" + id));
+
+        return new ReviewArticleResponseDto(entity);
     }
 }

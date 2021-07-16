@@ -2,6 +2,7 @@ package com.tooner.web;
 
 import com.tooner.domain.reviewarticle.ReviewArticle;
 import com.tooner.domain.reviewarticle.ReviewArticleRepository;
+import com.tooner.web.dto.ReviewArticleResponseDto;
 import com.tooner.web.dto.ReviewArticleSaveRequestDto;
 import com.tooner.web.dto.ReviewArticleUpdateRequestDto;
 import org.junit.After;
@@ -102,5 +103,35 @@ public class ReviewArticleApiControllerTest {
         assertThat(all.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(all.get(0).getContent()).isEqualTo(expectedContent);
         assertThat(all.get(0).getRating()).isEqualTo(expectedRating);
+    }
+
+    @Test
+    public void ReviewArticle_조회된다() throws Exception {
+        //given
+        ReviewArticle savedReviewArticle = reviewArticleRepository.save(ReviewArticle.builder()
+        .title("title")
+        .content("content")
+        .rating(3)
+        .build());
+
+        Long savedId = savedReviewArticle.getId();
+        String savedTitle = savedReviewArticle.getTitle();
+        String savedContent = savedReviewArticle.getContent();
+        Integer savedRating = savedReviewArticle.getRating();
+
+        String url = "http://localhost:" + port + "/api/reviews/" + savedId;
+
+        //when
+        ResponseEntity<ReviewArticleResponseDto> responseEntity = restTemplate.getForEntity(url, ReviewArticleResponseDto.class);
+
+
+        //then
+        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseEntity.getBody().getId()).isEqualTo(savedId);
+
+        List<ReviewArticle> all = reviewArticleRepository.findAll();
+        assertThat(all.get(0).getTitle()).isEqualTo(savedTitle);
+        assertThat(all.get(0).getContent()).isEqualTo(savedContent);
+        assertThat(all.get(0).getRating()).isEqualTo(savedRating);
     }
 }
