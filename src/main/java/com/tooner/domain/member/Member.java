@@ -1,18 +1,23 @@
 package com.tooner.domain.member;
 
+import com.tooner.domain.BaseTimeEntity;
 import com.tooner.domain.Gender;
+import com.tooner.domain.keyword.Keyword;
 import com.tooner.domain.reviewarticle.ReviewArticle;
-import javassist.compiler.ast.Keyword;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class Member {
+public class Member extends BaseTimeEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,9 +45,44 @@ public class Member {
     @Column(nullable = false)
     private Gender gender;
 
-    //@Column(nullable = false)
-    //private List<Keyword> keywords;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
 
-    //
-    //private List<ReviewArticle> reviewArticles;
+    @Column(nullable = true)
+    @OneToMany(mappedBy = "member")
+    private List<Keyword> keywords;
+
+    @Column(nullable = true)
+    private List<ReviewArticle> reviewArticles;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getUsername() {
+        return userName;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

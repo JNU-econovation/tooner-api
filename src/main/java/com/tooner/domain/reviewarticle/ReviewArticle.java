@@ -1,16 +1,21 @@
 package com.tooner.domain.reviewarticle;
 
 import com.tooner.domain.BaseTimeEntity;
+import com.tooner.domain.vote.Downvote;
+import com.tooner.domain.vote.Upvote;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class ReviewArticle extends BaseTimeEntity {
+public class
+ReviewArticle extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
