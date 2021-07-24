@@ -7,13 +7,12 @@ import javax.persistence.*;
 
 @RequiredArgsConstructor
 @Entity
-public class Upvote {
+public class UpVote {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
-    @Column(nullable = false)
     private ReviewArticle reviewArticle;
 }

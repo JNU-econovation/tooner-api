@@ -10,7 +10,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,10 +49,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
     private Role role;
 
     @Column(nullable = true)
-    @OneToMany(mappedBy = "member")
+    @OneToMany
     private List<Keyword> keywords;
 
     @Column(nullable = true)
+    @OneToMany
     private List<ReviewArticle> reviewArticles;
 
     @Override
