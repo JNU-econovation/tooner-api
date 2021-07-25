@@ -1,17 +1,22 @@
 package com.tooner.domain.reviewarticle;
 
 import com.tooner.domain.BaseTimeEntity;
+
+import com.tooner.domain.member.Member;
+import com.tooner.domain.vote.DownVote;
+import com.tooner.domain.vote.UpVote;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor
 @Entity
-public class
-ReviewArticle extends BaseTimeEntity {
+public class ReviewArticle extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,7 +30,16 @@ ReviewArticle extends BaseTimeEntity {
 
     private Integer rating;
 
-    //추후 필드 추가
+    @OneToMany
+    private List<UpVote> upvotes = new ArrayList<>();
+
+    @OneToMany
+    private List<DownVote> downvotes = new ArrayList<>();
+
+    @ManyToOne
+    private Member member;
+
+    //private Webtoon webtoon;
 
     @Builder
     public ReviewArticle(String title, String content, Integer rating) {
