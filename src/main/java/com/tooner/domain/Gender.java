@@ -2,7 +2,8 @@ package com.tooner.domain;
 
 public enum Gender {
     M("male"),
-    F("female");
+    F("female"),
+    ETC("etc");
 
     public final String label;
 

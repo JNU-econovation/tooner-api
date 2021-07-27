@@ -4,6 +4,7 @@ import com.tooner.domain.BaseTimeEntity;
 import com.tooner.domain.Gender;
 import com.tooner.domain.keyword.Keyword;
 import com.tooner.domain.reviewarticle.ReviewArticle;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,7 +28,7 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Column(length = 20, nullable = false)
     private String userName;
 
-    @Column(length = 16, nullable = false)
+    @Column(length = 80, nullable = false)
     private String password;
 
     @Column(length = 30, nullable = false)
@@ -58,6 +59,21 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @OneToMany
     private List<ReviewArticle> reviewArticles;
 
+    @Builder
+    public Member(Long id, String userName, String password, String alias, String profileImage, String bio, Integer age, Gender gender, Role role, List<Keyword> keywords, List<ReviewArticle> reviewArticles) {
+        this.id = id;
+        this.userName = userName;
+        this.password = password;
+        this.alias = alias;
+        this.profileImage = profileImage;
+        this.bio = bio;
+        this.age = age;
+        this.gender = gender;
+        this.role = role;
+        this.keywords = keywords;
+        this.reviewArticles = reviewArticles;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return Collections.singletonList(new SimpleGrantedAuthority(this.role.name()));
@@ -66,6 +82,11 @@ public class Member extends BaseTimeEntity implements UserDetails {
     @Override
     public String getUsername() {
         return userName;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
     }
 
     @Override
